@@ -15,18 +15,18 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class LayerDemoTest {
-    LayerDemo layerDemo;
+class CharLayerRecognizerTest {
+    CharLayerRecognizer charLayerRecognizer;
 
     @BeforeEach
     public void init() {
-        layerDemo = new LayerDemo();
+        charLayerRecognizer = new CharLayerRecognizer();
     }
 
     @ParameterizedTest
     @MethodSource(value = {"layerDemoParameters"})
     void recognize(List<Character> characters) {
-        layerDemo.recognize(characters);
+        charLayerRecognizer.recognize(characters);
     }
 
 
@@ -40,15 +40,15 @@ class LayerDemoTest {
     @ArgumentsSource(ParamProvider.class)
     void fragmentRecognize(List<Character> characters) {
         for (Character abbacd : characters) {
-            layerDemo.fragmentRecognize(abbacd);
+            charLayerRecognizer.fragmentRecognize(abbacd);
         }
     }
 
 
     @AfterEach
     public void show() {
-        layerDemo.show();
-        System.out.println("循环总次数：" + layerDemo.getContext().getCount().get());
+        charLayerRecognizer.show();
+        System.out.println("循环总次数：" + charLayerRecognizer.getContext().getCount().get());
     }
 
     public static List<Character> toList(String str) {

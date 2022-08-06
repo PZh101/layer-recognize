@@ -1,6 +1,5 @@
 package github.zhp.layer;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
  *
  * @author zhoup
  */
-public abstract class LayerRecognizer<T> extends BaseComparator<T> implements LifeCycleContext<T> {
+public abstract class LayerRecognizer<T> implements LifeCycleContext<T>, ShowContent {
     protected LayerContext<T> layerContext;
 
     /**
@@ -79,7 +78,7 @@ public abstract class LayerRecognizer<T> extends BaseComparator<T> implements Li
             return false;
         }
         T added = layerContext.elements.get(i);
-        int ret = compare(added, layerContext.getCurrentValue());
+        int ret = layerContext.getComparator().compare(added, layerContext.getCurrentValue());
         int level = layerContext.levels[i];
         switch (ret) {
             case -1:
@@ -129,8 +128,22 @@ public abstract class LayerRecognizer<T> extends BaseComparator<T> implements Li
      * 将[index1]=level1,[index2]=level2变为
      * [index1]=level2,[index2]=level1
      */
-    private void swapLevel(int index1, int index2, int level1, int level2) {
+    protected void swapLevel(int index1, int index2, int level1, int level2) {
         setLevel(index1, level2);
         setLevel(index2, level1);
+    }
+
+    @Override
+    public void show() {
+        int[] levels = layerContext.getLevels();
+        int min = findMin(levels);
+        int addNum = 0;
+        if (min < 0) {
+            addNum = -min;
+        }
+        for (int i = 0; i < levels.length; i++) {
+            int level = levels[i];
+            System.out.println("[" + (i + 1) + "]" + multiply(" ", level + addNum) + layerContext.getElement(i));
+        }
     }
 }

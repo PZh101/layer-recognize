@@ -1,6 +1,7 @@
 package github.zhp.layer;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -18,6 +19,14 @@ public class LayerContext<E> {
      * 用于计数
      */
     AtomicInteger count = new AtomicInteger(0);
+    /**
+     * 用于等级识别的比较器
+     */
+    Comparator<E> comparator;
+
+    public LayerContext(Comparator<E> comparator) {
+        this.comparator = comparator;
+    }
 
     /**
      * 将{@code start}到{@code end}区间非零的element的级别都加上{@code level}
@@ -176,5 +185,13 @@ public class LayerContext<E> {
 
     public AtomicInteger getCount() {
         return count;
+    }
+
+    public Comparator<E> getComparator() {
+        return comparator;
+    }
+
+    public void setComparator(Comparator<E> comparator) {
+        this.comparator = comparator;
     }
 }
