@@ -1,5 +1,6 @@
 package github.zhp.layer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,8 +25,16 @@ public class LayerTree<T> {
      *
      * @param context 上下文
      */
-    public void buildTree(LayerContext<T> context) {
-        buildTree(context.getElements(), context.getLevels());
+    public static <T> LayerTree<T> buildTree(LayerContext<T> context) {
+        LayerTree<T> layerTree = new LayerTree<>();
+        layerTree.internalBuildTree(context.getElements(), context.getLevels());
+        return layerTree;
+    }
+
+    public static <T> LayerTree<T> buildTree(List<T> elements, int[] levels) {
+        LayerTree<T> layerTree = new LayerTree<>();
+        layerTree.internalBuildTree(elements, levels);
+        return layerTree;
     }
 
     /**
@@ -34,7 +43,7 @@ public class LayerTree<T> {
      * @param elements 要素列表
      * @param levels   要素等级数组
      */
-    public void buildTree(List<T> elements, int[] levels) {
+    private void internalBuildTree(List<T> elements, int[] levels) {
         this.elements = elements;
         this.levels = levels;
         root = new LayerNode();
@@ -109,6 +118,16 @@ public class LayerTree<T> {
             p++;
         }
         return node;
+    }
+
+    public List<LayerNode> getRoots() {
+        List<LayerNode> roots = new ArrayList<>();
+        for (int i = 0; i < levels.length; i++) {
+            if (levels[i] == 1) {
+                roots.add(layerNodes[i]);
+            }
+        }
+        return roots;
     }
 
     public LayerNode getRoot() {

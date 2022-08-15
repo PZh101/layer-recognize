@@ -1,5 +1,7 @@
 package github.zhp.layer.impl;
 
+import github.zhp.layer.DumpLayerTree;
+import github.zhp.layer.LayerTree;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
@@ -48,6 +50,9 @@ class CharLayerRecognizerTest {
     @AfterEach
     public void show() {
         charLayerRecognizer.show();
+        LayerTree<Character> tree = LayerTree.buildTree(charLayerRecognizer.getContext());
+        DumpLayerTree<Character> characterDumpLayerTree = new DumpLayerTree<>();
+        characterDumpLayerTree.dumpTree(tree);
         System.out.println("循环总次数：" + charLayerRecognizer.getContext().getCount().get());
     }
 
