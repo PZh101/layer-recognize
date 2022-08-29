@@ -49,4 +49,13 @@ public abstract class BaseComparator<T> implements Comparator<T> {
      * @return bool
      */
     public abstract boolean fatherAndSon(T suspectedFather, T suspectedSon);
+
+    /**
+     * 获取当前上下文
+     *
+     * @return {@code LayerContext}
+     */
+    public LayerContext<T> getLayerContext() {
+        return null;
+    }
 }
